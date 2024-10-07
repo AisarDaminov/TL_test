@@ -1,0 +1,443 @@
+{
+	"info": {
+		"_postman_id": "22845a83-1ac3-4d32-8c6f-6167da0cf343",
+		"name": "TravelLine API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37211456"
+	},
+	"item": [
+		{
+			"name": "Receive property entity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Properties array should exist and be an array\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.properties).to.exist;\r",
+							"    pm.expect(responseData.properties).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Properties array contains the required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.properties).to.be.an('array').that.is.not.empty;\r",
+							"    responseData.properties.forEach(function(property) {\r",
+							"        pm.expect(property).to.have.property('id');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 300ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "b600b7c6-984d-4488-ad0c-26849907c65f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "X-API-KEY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://partner.qatl.ru/api/content/v1/properties",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"qatl",
+						"ru"
+					],
+					"path": [
+						"api",
+						"content",
+						"v1",
+						"properties"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Receive description of a property",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate id, name, description, currency, and stars fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.id).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.name).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.description).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.currency).to.exist.and.to.be.a('string');\r",
+							"    pm.expect(responseData.stars).to.exist.and.to.be.a('number');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the contactInfo object including address, phones, and emails\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.contactInfo).to.exist.and.to.be.an('object');\r",
+							"    pm.expect(responseData.contactInfo.address).to.exist.and.to.be.an('object');\r",
+							"    pm.expect(responseData.contactInfo.phones).to.exist.and.to.be.an('array');\r",
+							"    pm.expect(responseData.contactInfo.emails).to.exist.and.to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Rate plans, room types, and services arrays must exist in the response\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData.ratePlans).to.be.an('array').that.is.not.empty;\r",
+							"    pm.expect(responseData.roomTypes).to.be.an('array').that.is.not.empty;\r",
+							"    pm.expect(responseData.services).to.be.an('array').that.is.not.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "b600b7c6-984d-4488-ad0c-26849907c65f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "X-API-KEY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://partner.qatl.ru/api/content/v1/properties/{{propertyId}}",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"qatl",
+						"ru"
+					],
+					"path": [
+						"api",
+						"content",
+						"v1",
+						"properties",
+						"{{propertyId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Receive entity of possible meal options",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is within an acceptable range\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields - code and name\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(item) {\r",
+							"        pm.expect(item).to.have.property('code');\r",
+							"        pm.expect(item).to.have.property('name');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Each code and name is a non-empty string\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(item) {\r",
+							"        pm.expect(item.code).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Code should not be empty\");\r",
+							"        pm.expect(item.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "b600b7c6-984d-4488-ad0c-26849907c65f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "X-API-KEY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://partner.qatl.ru/api/content/v1/meal-plans",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"qatl",
+						"ru"
+					],
+					"path": [
+						"api",
+						"content",
+						"v1",
+						"meal-plans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Room types",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields - code and name\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(item) {\r",
+							"        pm.expect(item).to.be.an('object');\r",
+							"        pm.expect(item).to.have.property('code');\r",
+							"        pm.expect(item).to.have.property('name');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Code and name should be non-empty strings\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('array').that.is.not.empty;\r",
+							"    responseData.forEach(function(category) {\r",
+							"        pm.expect(category.code).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Code should not be empty\");\r",
+							"        pm.expect(category.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "b600b7c6-984d-4488-ad0c-26849907c65f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "X-API-KEY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://partner.qatl.ru/api/content/v1/room-type-categories",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"qatl",
+						"ru"
+					],
+					"path": [
+						"api",
+						"content",
+						"v1",
+						"room-type-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Room amenities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields - name, amenities\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(category => {\r",
+							"        pm.expect(category).to.have.property('name').that.is.a('string');\r",
+							"        pm.expect(category).to.have.property('amenities').that.is.an('array');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Name and code in amenities are non-empty strings\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData).to.be.an('array');\r",
+							"  responseData.forEach(category => {\r",
+							"    pm.expect(category.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");\r",
+							"    category.amenities.forEach(amenity => {\r",
+							"      pm.expect(amenity.name).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Amenity name should not be empty\");\r",
+							"      pm.expect(amenity.code).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Amenity code should not be empty\");\r",
+							"    });\r",
+							"  });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "b600b7c6-984d-4488-ad0c-26849907c65f",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "X-API-KEY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://partner.qatl.ru/api/content/v1/room-amenity-categories",
+					"protocol": "https",
+					"host": [
+						"partner",
+						"qatl",
+						"ru"
+					],
+					"path": [
+						"api",
+						"content",
+						"v1",
+						"room-amenity-categories"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
